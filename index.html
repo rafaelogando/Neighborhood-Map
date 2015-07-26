@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title >Neigborhood Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script type="text/javascript" src="js/knockout-3.3.0.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <datalist id="city" data-bind="foreach:markersData" >
+    <option  data-bind="value: marker.title">
+    </datalist>
+      
+    <input id="pac-input" class="controls" type="text" list="city" 
+        placeholder="Enter or choose a location..." >
+
+    <div id="map-canvas"></div>
+  </body>
+</html>
+
