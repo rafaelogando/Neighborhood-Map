@@ -1,16 +1,20 @@
 function begingApp(){
+  'use strict';
+
   //Create google map element and set its parameters.
   var map = new google.maps.Map(document.getElementById('map-canvas'),{center: { lat: 18.668407, lng: -69.811627},zoom: 10});
+  google.maps.event.addListener(map, 'zoom_changed', checkConection);
+  //Checks if the browser still online when the user zoom the map.
+  function checkConection() 
+    {
+      if(!navigator.onLine)
+      {
+        console.log("Error: Browser is offline. Check your internet conection.");
+      }
+    }
   
   var model = 
   {
-    people:
-     [
-     { firstName: 'Bert', lastName: 'Bertington' },
-     { firstName: 'Charles', lastName: 'Charlesforth' },
-     { firstName: 'Denise', lastName: 'Dentiste' }
-     ],
-    inputValue:"",
     mapOptions:
     {
       center:{ lat: 18.45, lng: -69.94},
@@ -107,7 +111,7 @@ function begingApp(){
     ],
     currentMarker: "",
     enterKeyMarkers:[],
-  }
+  };
 
   ko.applyBindings(model);
 
@@ -121,17 +125,17 @@ function begingApp(){
 
       for(var marker in model.markersData)
         {
-          for(var y in model.markersData[marker]) // close all map marker's infoWindows.
-            {
-              model.markersData[marker][y].inf.close();
-               if(model.markersData[marker][y].title == model.inputValue)
+          if(model.markersData.length !== 0){
+            for(var y in model.markersData[marker]) // close all map marker's infoWindows.
+              {
+                model.markersData[marker][y].inf.close();
+                if(model.markersData[marker][y].title == model.inputValue)
                 {
                   model.currentMarker = model.markersData[marker][y];
                   model.markersData[marker][y].setMap(map);
                   model.markersData[marker][y].inf.open(map,model.markersData[marker][y]);
-  
                 }
-              if(model.markersData[marker][y].title.toUpperCase().indexOf(model.inputValue.toUpperCase())!= -1)
+                if(model.markersData[marker][y].title.toUpperCase().indexOf(model.inputValue.toUpperCase())!= -1)
                 {
                   model.currentMarker = model.markersData[marker][y];
                   model.markersData[marker][y].setMap(map);
@@ -140,9 +144,10 @@ function begingApp(){
                 else
                  {
                     model.markersData[marker][y].setMap(null);
-                  }
-           }
-        }
+                }
+              }
+            }
+      }
     },
     setInfoWindow:function(marker)
     {
@@ -171,15 +176,16 @@ function begingApp(){
     //This function start basic data to run the app.
     start:function()
     {
+      
       //This listener start the search function for markers. 
       $( "#pac-input" ).keypress(function(data) 
       {
-        if(data.charCode == 13 && model.input !="")
+        if(data.charCode == 13 && model.input !=="")
         {
-          for(var e in model.enterKeyMarkers)
-          {
-            model.enterKeyMarkers[e].inf.open(map,model.enterKeyMarkers[e]);
-          }
+          
+          
+            model.enterKeyMarkers[0].inf.open(map,model.enterKeyMarkers[0]);
+          
         }
         model.enterKeyMarkers = [];
       });
@@ -189,9 +195,12 @@ function begingApp(){
       //This loop is used to add an event listener to markers, this listeners open an infowindow for each marker
       //when clicked.
       for(var marker in model.markersData)
+
       {
+      
         for(var y in model.markersData[marker])
         {
+          if(model.markersData[marker][y].Wurl ==="" || model.markersData[marker][y].picUrl===""){
           model.currentMarker = model.markersData[marker][y];
           //Add and set the wikipedia request url.
           model.markersData[marker][y].Wurl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+model.currentMarker.title+'&format=json&callback=wikiCallback'; 
@@ -203,35 +212,43 @@ function begingApp(){
             dataType:"jsonp",
             success:function(response) 
             {
-              setMarkerPic =function(data)
+              var setMarkerPic =function(data)
             {
               var base = data.photos.photo[0];
               currentCopy.picUrl = "http://farm"+base.farm+".staticflickr.com/"+base.server+"/"+base.id+"_"+base.secret+"_q.jpg";  
               currentCopy.inf =octopus.setInfoWindow(currentCopy); 
             };
-              var artic = response[2][0];
               currentCopy.artic = response;
               $.getJSON( "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1b42091b473fe9b06c5f4875ae9879d4&tags=santo_domingo&text="+currentCopy.title+"&per_page=1&format=json&jsoncallback=?",setMarkerPic );
+            },error:function(errorThrown){
+              console.log( "There was an " +errorThrown+ " please check your internet conection and try again." );
             }
+
             });
 
             
-          
             google.maps.event.addListener(currentCopy, 'click', function() {
         
             currentCopy.inf.open(map,currentCopy);
-            })
-          })(model.markersData[marker][y])
+            });
+          })(model.markersData[marker][y]);
         }
       }
     }
   }
+  };
 
 
-este = model  ;
-octopus.initialize();
-octopus.start();
+  octopus.initialize();
+  octopus.start();
+  $("#map-canvas").css("height", window.innerHeight-$( "#terco" ).outerHeight());
+  $(window).resize(function() 
+    {
+      $("#map-canvas").css("height", window.innerHeight-$( "#terco" ).outerHeight());
+    });
 }
 
-
-google.maps.event.addDomListener(window, 'load', begingApp);
+if(typeof(google)== "object"){
+  google.maps.event.addDomListener(window, 'load', begingApp);
+}
+else{console.log("There was a problem starting the app. Please check your internet conection and try again");}

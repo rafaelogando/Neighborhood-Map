@@ -2,31 +2,36 @@
 <html>
   <head>
     <title >Neigborhood Map</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1 ,user-scalable=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet"  href="css/style.css">
+    <link rel="stylesheet"  href="css/bootstrap.min.css">
     <style>
-      html, body, #map-canvas {
+        #map-canvas {
         height: 100%;
-        margin: 0px;
-        padding: 0px
+        margin: 0;
+        padding: 0;
       }
     </style>
-    <script type="text/javascript" src="js/knockout-3.3.0.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
-
+    <script  src="js/knockout-3.3.0.js"></script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places" onerror="alert('There was a problem. Please check your internet conection');"> </script>
+    <script  src="js/jquery.js"></script>
+    <script  src="js/app.js"></script>
   </head>
   <body>
-    <datalist id="city" data-bind="foreach:markersData" >
-    <option  data-bind="value: marker.title">
-    </datalist>
-      
-    <input id="pac-input" class="controls" type="text" list="city" 
-        placeholder="Enter or choose a location..." >
-
-    <div id="map-canvas"></div>
+    <div class="container-fluid">
+      <div id="terco"class="row">
+        <div class="col-md-4 ">
+          <datalist id="city" data-bind="foreach:markersData" >
+            <option  data-bind="value: marker.title">
+          </datalist>
+          <input id="pac-input" class="controls" type="text" list="city" placeholder="Enter or choose a location..." > 
+        </div>
+        <div class="col-md-8"></div>
+      </div>
+    </div>
+    <div id="map-canvas" class="col-xs-12"></div>
   </body>
 </html>
 
