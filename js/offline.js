@@ -29,13 +29,13 @@
     checks: {
       xhr: {
         url: function() {
-          return "/favicon.ico";
+          return "/favicon.ico?_=" + (Math.floor(Math.random() * 1000000000));
         },
         timeout: 5000
       },
       image: {
         url: function() {
-          return "/favicon.ico";
+          return "/favicon.ico?_=" + (Math.floor(Math.random() * 1000000000));
         }
       },
       active: 'xhr'
@@ -307,4 +307,3 @@
   window.Offline = Offline;
 
 }).call(this);
-Offline.options = {checks: {image: {url: 'http://www.puppylinux.com/puppylogo96.png'}, active: 'image'}}
