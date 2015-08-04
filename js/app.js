@@ -3,8 +3,6 @@ function begingApp(){
 
   //Create google map element and set its parameters.
   var map = new google.maps.Map(document.getElementById('map-canvas'),{center: { lat: 18.668407, lng: -69.811627},zoom: 10});
-  google.maps.event.addListener(map, 'zoom_changed', checkConection);
-  //Checks if the browser still online when the user zoom the map.
   
   var model = 
   {
