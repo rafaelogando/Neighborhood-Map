@@ -126,9 +126,9 @@ function begingApp(){
                 if(model.markersData[marker][y].title == model.inputValue)
                 {
                   model.currentMarker = model.markersData[marker][y];
-                  model.markersData[marker][y].setMap(map);
-                  model.currentInfo = model.markersData[marker][y].inf;
-                  model.currentInfo.open(map,model.markersData[marker][y]);
+                  model.currentMarker.setMap(map);
+                  model.currentInfo = model.currentMarker.inf;
+                  model.currentInfo.open(map,model.currentMarker);
                 }
                 if(model.markersData[marker][y].title.toUpperCase().indexOf(model.inputValue.toUpperCase())!= -1)
                 {
