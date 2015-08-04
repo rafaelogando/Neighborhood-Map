@@ -3,15 +3,6 @@ function begingApp(){
 
   //Create google map element and set its parameters.
   var map = new google.maps.Map(document.getElementById('map-canvas'),{center: { lat: 18.668407, lng: -69.811627},zoom: 10});
-  google.maps.event.addListener(map, 'zoom_changed', checkConection);
-  //Checks if the browser still online when the user zoom the map.
-  function checkConection() 
-    {
-      if(!navigator.onLine)
-      {
-        console.log("Error: Browser is offline. Check your internet conection.");
-      }
-    }
   
   var model = 
   {
@@ -247,8 +238,4 @@ function begingApp(){
       $("#map-canvas").css("height", window.innerHeight-$( "#terco" ).outerHeight());
     });
 }
-
-if(typeof(google)== "object"){
-  google.maps.event.addDomListener(window, 'load', begingApp);
-}
-else{console.log("There was a problem starting the app. Please check your internet conection and try again");}
+google.maps.event.addDomListener(window, 'load', begingApp);

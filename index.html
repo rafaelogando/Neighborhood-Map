@@ -6,14 +6,24 @@
     <meta charset="utf-8">
     <link rel="stylesheet"  href="css/style.css">
     <link rel="stylesheet"  href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/offline-theme-chrome.css" />
+    <link rel="stylesheet" href="css/offline-language-english.css" />
     <style>
-        #map-canvas {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+    #map-canvas {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    }
     </style>
     <script  src="js/knockout-3.3.0.js"></script>
+    <script src="js/offline.min.js"></script>
+    <script >
+    var run = function(){
+      if (Offline.state === 'up')
+        Offline.check();
+    }
+    setInterval(run, 5000);
+    </script>
     
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places" onerror="alert('There was a problem. Please check your internet conection');"> </script>
     <script  src="js/jquery.js"></script>
