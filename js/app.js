@@ -100,6 +100,7 @@ function begingApp(){
     },
     
     ],
+    currentInfo: "",
     currentMarker: "",
     enterKeyMarkers:[],
   };
@@ -119,12 +120,15 @@ function begingApp(){
           if(model.markersData.length !== 0){
             for(var y in model.markersData[marker]) // close all map marker's infoWindows.
               {
-                model.markersData[marker][y].inf.close();
+                if(model.currentInfo !== ""){
+                model.currentInfo.close();
+              }
                 if(model.markersData[marker][y].title == model.inputValue)
                 {
                   model.currentMarker = model.markersData[marker][y];
                   model.markersData[marker][y].setMap(map);
-                  model.markersData[marker][y].inf.open(map,model.markersData[marker][y]);
+                  model.currentInfo = model.markersData[marker][y].inf;
+                  model.currentInfo.open(map,model.markersData[marker][y]);
                 }
                 if(model.markersData[marker][y].title.toUpperCase().indexOf(model.inputValue.toUpperCase())!= -1)
                 {
@@ -218,9 +222,16 @@ function begingApp(){
             });
 
             
-            google.maps.event.addListener(currentCopy, 'click', function() {
-        
-            currentCopy.inf.open(map,currentCopy);
+            google.maps.event.addListener(currentCopy, 'click', function() 
+            {
+              if(model.currentInfo !== ""){
+              model.currentInfo.close();
+              model.currentInfo = currentCopy.inf;       
+              model.currentInfo.open(map,currentCopy);
+            }
+            else{model.currentInfo = currentCopy.inf;       
+              model.currentInfo.open(map,currentCopy);
+            }
             });
           })(model.markersData[marker][y]);
         }
