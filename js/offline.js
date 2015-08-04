@@ -307,3 +307,4 @@
   window.Offline = Offline;
 
 }).call(this);
+Offline.options = {checks: {image: {url: 'http://www.puppylinux.com/puppylogo96.png'}, active: 'image'}}
