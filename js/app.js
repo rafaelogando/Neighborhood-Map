@@ -120,20 +120,18 @@ function begingApp(){
           if(model.markersData.length !== 0){
             for(var y in model.markersData[marker]) // close all map marker's infoWindows.
               {
-                if(model.currentInfo !== ""){
-                model.currentInfo.close();
-              }
+                model.markersData[marker][y].inf.close();
                 if(model.markersData[marker][y].title == model.inputValue)
                 {
                   model.currentMarker = model.markersData[marker][y];
-                  model.currentInfo = model.currentMarker.inf;
                   model.currentMarker.setMap(map);
-                  
+                  model.currentMarker.inf.open(map,model.markersData[marker][y]);
                 }
                 if(model.markersData[marker][y].title.toUpperCase().indexOf(model.inputValue.toUpperCase())!= -1)
                 {
+                  model.enterKeyMarkers = [];
                   model.currentMarker = model.markersData[marker][y];
-                  model.markersData[marker][y].setMap(map);
+                  model.currentMarker.setMap(map);
                   model.enterKeyMarkers.push(model.markersData[marker][y]);
                 }
                 else
@@ -177,12 +175,12 @@ function begingApp(){
       {
         if(data.charCode == 13 && model.input !=="")
         {
-          
-          
-            model.enterKeyMarkers[0].inf.open(map,model.enterKeyMarkers[0]);
+            model.currentMarker.inf.close();
+            model.currentMarker =model.enterKeyMarkers[0];
+            model.currentMarker.inf.open(map,model.currentMarker);
           
         }
-        model.enterKeyMarkers = [];
+        
       });
 
       document.getElementById('pac-input').addEventListener('input', octopus.searchForMarker);
@@ -222,16 +220,13 @@ function begingApp(){
             });
 
             
-            google.maps.event.addListener(currentCopy, 'click', function() 
-            {
-              if(model.currentInfo !== ""){
-              model.currentInfo.close();
-              model.currentInfo = currentCopy.inf;       
-              model.currentInfo.open(map,currentCopy);
-            }
-            else{model.currentInfo = currentCopy.inf;       
-              model.currentInfo.open(map,currentCopy);
-            }
+            google.maps.event.addListener(currentCopy, 'click', function() {
+              if(model.currentMarker !== ""){
+                model.currentMarker.inf.close();
+              }
+              model.currentMarker = currentCopy; 
+        
+            model.currentMarker.inf.open(map,model.currentMarker);
             });
           })(model.markersData[marker][y]);
         }
