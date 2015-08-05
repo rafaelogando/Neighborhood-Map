@@ -173,12 +173,11 @@ function begingApp(){
       //This listener start the search function for markers. 
       $( "#pac-input" ).keypress(function(data) 
       {
-        if(data.charCode == 13 && model.input !=="")
+        if(data.charCode == 13 || data.keyCode == 13 && model.input !=="")
         {
             model.currentMarker.inf.close();
             model.currentMarker =model.enterKeyMarkers[0];
-            model.currentMarker.inf.open(map,model.currentMarker);
-          
+            model.currentMarker.inf.open(map,model.currentMarker);  
         }
         
       });
