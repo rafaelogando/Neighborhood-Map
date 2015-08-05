@@ -244,5 +244,6 @@ function begingApp(){
     {
       $("#map-canvas").css("height", window.innerHeight-$( "#terco" ).outerHeight());
     });
+  Offline.options = {checks: {image: {url: 'favicon.ico'}, active: 'image'}}
 }
 google.maps.event.addDomListener(window, 'load', begingApp);
