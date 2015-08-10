@@ -15,5 +15,3 @@ Controls:
 Requirements:
 
 -Your web browse must allow and support javascript.
-
-Note: Attached will be a folder called "OriginalFiles" wich include the no minified or modified page. It has the page state before using Gulp tools on it.
