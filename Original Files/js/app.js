@@ -429,6 +429,7 @@ window.addEventListener("orientationchange", function()
 // Announce the new orientation number
 if (window.matchMedia("(orientation: portrait)").matches) 
 {
+  alert("did P?");
   $(".landscape").show();
   $(".portraid").hide();
 }// you're in PORTRAIT mode
@@ -436,8 +437,9 @@ if (window.matchMedia("(orientation: portrait)").matches)
 
 else if (window.matchMedia("(orientation: landscape)").matches) 
   {
+    alert("did L?");
     $(".landscape").hide();$(".portraid").show();
     map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push($("#pac-input"));
-    alert("did?")}
+  }
     // you're in LANDSCAPE mode
-})
+});
