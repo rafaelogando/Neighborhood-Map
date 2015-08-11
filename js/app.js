@@ -288,7 +288,7 @@ function begingApp()
         //
         google.maps.event.addListener(currentCopy, 'click', function()
         {
-          if(model.currentMarker !== "")
+          if(model.currentMarker !== "" && typeof(model.currentMarker.inf) !== "undefined")
           {
             model.currentMarker.inf.close();
           }
@@ -296,8 +296,13 @@ function begingApp()
           $("#pac-input").blur();
 
           //wait while the list closes to have enough space to fully
-          // open the infowindow.
-          setTimeout(function(){model.currentMarker.inf.open(map,model.currentMarker);},300); 
+          // open the infowindow and prevent try to open an infowindow
+          // before it even exist.
+          if(typeof(model.currentMarker.inf) !== "undefined") 
+          {
+            setTimeout(function(){model.currentMarker.inf.open(map,model.currentMarker);},300);
+          }
+          
         });
       })(current);
     },
@@ -403,9 +408,11 @@ $("#map-canvas").css("height", window.innerHeight);
     });
 
 //Check for current orientation when the
-//app first start.
+//app first start and set the screen size.
 window.addEventListener("load",function()
 {
+  $("#map-canvas").css("height", window.innerHeight);
+  $("#map-canvas").css("width", $(window).width()-1);
   if (window.matchMedia("(orientation: portrait)").matches) 
   {
     $(".landscape").hide();
@@ -417,27 +424,28 @@ window.addEventListener("load",function()
     $(".landscape").show();
     $(".portraid").hide();
   }// you're in LANDSCAPE mode
-})
+});
 
 //Check for orientation when app is runing.
 //Hides and shows classes base on orientation
 //to meke the best controls distribution on the
 //screen acoording to the available space and 
 //control shape and size.
+
 window.addEventListener("orientationchange", function() 
 {
-// Announce the new orientation number
-if (window.matchMedia("(orientation: portrait)").matches) 
-{
-  $(".landscape").show();
-  $(".portraid").hide();
-}// you're in PORTRAIT mode
-
-
-else if (window.matchMedia("(orientation: landscape)").matches) 
+  
+ // Shows or hide element base on orientation.
+ if (window.matchMedia("(orientation: portrait)").matches)
   {
-    $(".landscape").hide();$(".portraid").show();
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push($("#pac-input"));
-    alert("did?")}
-    // you're in LANDSCAPE mode
-})
+    $(".landscape").show();
+    $(".portraid").hide();
+  }
+
+  else if (window.matchMedia("(orientation: landscape)").matches)
+  {
+    $(".landscape").hide();
+    $(".portraid").show();
+  }
+ 
+},false);

@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet"  href="css/styles.css" /> 
-    <noscript><link rel="stylesheet" type="text/css" href="css/noJS.css" /></noscript>
 
     <style>
     #map-canvas {
@@ -19,6 +18,7 @@
     </style>
     <!-- This script check the internet connection each 3 seconds-->
     <script >
+
     var run = function(){
       if (Offline.state === 'up')
         Offline.check();
@@ -35,7 +35,7 @@
         <datalist id="city" data-bind="foreach:markersData" >
           <option  data-bind="value: marker.title">
         </datalist>
-        <input id="pac-input" class="controls" type="text" list="city" placeholder="Search..." >
+        <input id="pac-input" class="controls" type="text" list="city" placeholder="location..." >
           <section class="main">
             <div class="windy-demo" style="display:none">
               <nav>
@@ -78,5 +78,7 @@
     </div>
     </div>
     <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript">
+    </script>
   </body>
 </html>

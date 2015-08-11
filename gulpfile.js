@@ -20,7 +20,7 @@ var minifyHTML = require('gulp-minify-html');
 // minify new or changed HTML pages
 gulp.task('index', function() {
   var htmlSrc = './*.html',
-      htmlDst = './';
+      htmlDst = './build';
  
   gulp.src(htmlSrc)
     .pipe(minifyHTML())
