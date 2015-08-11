@@ -17,3 +17,7 @@ Requirements:
 -Your web browse must allow and support javascript.
 
 Note: Attached will be a folder called "OriginalFiles" wich include the no minified or modified page. It has the page state before using Gulp tools on it.
+
+Did not forget CDN precached adventage but not implemented this time. 
+
+I notice there are lot of inprovements that can be done here but right now it will be too hard to get the time to work on those improvements. 
