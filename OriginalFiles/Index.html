@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet"  href="css/styles.css" /> 
-
+    
     <style>
     #map-canvas {
       width:100%;
@@ -16,24 +16,26 @@
     }
    
     </style>
-    <!-- This script check the internet connection each 3 seconds-->
+    <!-- This script check the Internet connection each 2 seconds-->
     <script >
 
     var run = function(){
       if (Offline.state === 'up')
         Offline.check();
     }
-    setInterval(run, 3000);
+    setInterval(run, 2000);
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places" onerror="alert('maps.googleapis.com. Retry...');"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;signed_in=true&amp;libraries=places" onerror="alert('maps.googleapis.com. Retry...');"></script>
   </head>
-
+  <!--A property, atribute or other filled with "binded" means it is  
+  present just for format, good practice aclaration and/or evaluation
+  purpose  and will be updated through knockoutjs-->
   <body>
     <div class="container-fluid">
-    <div id="terco"class="row ">
+    <div id="terco" class="row">
       <div class="col-sm-4 col-xs-6">
         <datalist id="city" data-bind="foreach:markersData" >
-          <option  data-bind="value: marker.title">
+          <option  label="binded" data-bind="value: marker.title, attr:{label: marker.title}">
         </datalist>
         <input id="pac-input" class="controls" type="text" list="city" placeholder="location..." >
           <section class="main">
@@ -52,21 +54,22 @@
     </div>  
     <section class="main">
       <div class="windy-demo" style="display:none;" >
+        <h2>Photos</h2>
         <ul id="wi-el" class="wi-container"  data-bind="foreach:markersData">
           <li>
             <div class="col-xs-6 col-md-4 landscape">
-              <img width="80%" height="80%" data-bind="attr:{src:marker.picUrl()}">
+              <img src="binded" alt="binded" data-bind="attr:{src: marker.picUrl(), alt: marker.title}">
             </div>
             <div class="landscape col-xs-6 col-md-8">
-              <h4 data-bind="text:marker.title"></h4>
-              <p data-bind="text:marker.artic"></p>
+              <h4 data-bind="text:marker.title">"binded"</h4>
+              <p data-bind="text:marker.artic">"binded"</p>
             </div>
             <div class="col-xs-12 portraid">
-              <img width="80%" height="80%" data-bind="attr:{src:marker.picUrl()}">
+              <img src="binded" alt="binded" data-bind="attr:{src: marker.picUrl(), alt: marker.title}">
             </div>
             <div class="portraid col-xs-12">
-              <h4 data-bind="text:marker.title"></h4>
-              <p data-bind="text:marker.artic"></p>
+              <h4 data-bind="text:marker.title">"binded"</h4>
+              <p data-bind="text:marker.artic">"binded"</p>
             </div>
           </li> 
         </ul>

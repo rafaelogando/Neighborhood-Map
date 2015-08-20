@@ -1,8 +1,5 @@
 // include gulp
 var gulp = require('gulp'); 
-
-// include gulp
-var gulp = require('gulp'); 
  
 // include plug-ins
 var jshint = require('gulp-jshint');
@@ -38,7 +35,7 @@ gulp.task('styles', function() {
     .pipe(concat('styles.css'))
     .pipe(autoprefix('last 2 versions'))
     .pipe(minifyCSS())
-    .pipe(gulp.dest('./css/'));
+    .pipe(gulp.dest('./build/css/'));
   });
 
 // include plug-ins
@@ -48,11 +45,11 @@ var uglify = require('gulp-uglify');
  
 // JS concat, strip debugging and minify
 gulp.task('scripts', function() {
-  gulp.src([ "js/offline.min.js","js/knockout-3.3.0.js","./js/jquery.min.js", "js/modernizr.custom.79639.js","js/app.js","js/jquery.windy.js","js/windy.nav.js"])
+  gulp.src([ "js/knockout-3.3.0.js","./js/jquery.min.js", "js/modernizr.custom.79639.js","js/app.js","js/jquery.windy.js","js/windy.nav.js","js/offline.min.js"])
     .pipe(concat('script.js'))
     .pipe(stripDebug())
     .pipe(uglify())
-    .pipe(gulp.dest('./js/'));
+    .pipe(gulp.dest('./build/js/'));
 });
 
 // default gulp task

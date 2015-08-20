@@ -15,27 +15,27 @@ function begingApp()
         mapTypeIds: [
         google.maps.MapTypeId.ROADMAP,
         google.maps.MapTypeId.SATELLITE,
-      ]
-    },
-    zoomControl: true,
-    zoomControlOptions: {
-      style: google.maps.ZoomControlStyle.DEFAULT
-    }
+        ]
+      },
+      zoomControl: true,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.DEFAULT
+      }
     });
 
-  //Refresh the map when the user get back to ir from the gallery.
+  //Refresh the map when the user get back to it from the gallery.
   $(".backButton").click(function(){
   google.maps.event.trigger(map, "resize");
   });
 
 
-  function CenterControl(controlDiv, map) {
+ var centerControlDiv = document.createElement('div');
 
   // Create the gallery button 
   var controlUI = document.createElement('div');
   controlUI.className ="col-xs-12 controls";
   controlUI.innerHTML = 'Gallery';
-  controlDiv.appendChild(controlUI);
+  centerControlDiv.appendChild(controlUI);
   
   //When this button is clicked it hides the search box and shows the back button
   google.maps.event.addDomListener(controlUI, 'click', function() {
@@ -45,10 +45,6 @@ function begingApp()
     console.log("boon");
   });
 
-}
-
-  var centerControlDiv = document.createElement('div');
-  var centerControl = new CenterControl(centerControlDiv, map);
 
   centerControlDiv.index = 1;
 
@@ -197,6 +193,20 @@ function begingApp()
 
   var octopus =
   {
+    closeInfo: function()
+    {
+      for(var marker in model.markersData)
+      {
+        for(var y in model.markersData[marker])
+        {
+          if (model.markersData[marker][y].getAnimation() !== null)
+          {
+             model.markersData[marker][y].setAnimation(null);
+          }
+        }
+      }
+    },
+
     //Looks trhough all modal markets titles and if the input search value matches it 
     //remains as the only visible marker.
     searchForMarker: function()
@@ -213,8 +223,12 @@ function begingApp()
             if(typeof model.inputValue === "string")
             {
               model.markersData[marker][y].inf.close();// close map marker's infoWindow.
+              if (model.currentMarker.getAnimation() !== null) {
+                model.currentMarker.setAnimation(null);
+              }
               if(model.markersData[marker][y].title == model.inputValue)
               {
+                alert("keep dancing babe");
                 model.currentMarker = model.markersData[marker][y];
                 model.currentMarker.setMap(map);
 
@@ -222,12 +236,17 @@ function begingApp()
                 //keyboard and have more espace to show the infowindow.
                 $("#pac-input").blur();
 
-                //wait while the list and mobiele keyboard closes to have enough space to fully open.
-                setTimeout(function(){model.currentMarker.inf.open(map,model.currentMarker);},300); 
+                //wait while the list and mobiele keyboard closes to have more room. 
+                setTimeout(function()
+                  {
+                    model.currentMarker.inf.open(map,model.currentMarker);
+                    model.currentMarker.setAnimation(google.maps.Animation.BOUNCE);
+                  },300); 
                
               }
+              
               //Save the matches in an array and make them visibles in the map
-              if(model.markersData[marker][y].title.toUpperCase().indexOf(model.inputValue.toUpperCase())!= -1)
+              if(model.markersData[marker][y].title.toUpperCase().slice(0,model.inputValue.length).indexOf(model.inputValue.toUpperCase())!= -1)
               {
                 model.enterKeyMarkers = [];
                 model.currentMarker = model.markersData[marker][y];
@@ -269,6 +288,9 @@ function begingApp()
 
               //Sets the infowindow content
               currentCopy.inf =octopus.setInfoWindow(currentCopy);
+              google.maps.event.addListener(currentCopy.inf,'closeclick',function(){
+                octopus.closeInfo();
+        });
 
               //Sets the gallery content
               currentCopy.galeryContent(
@@ -293,9 +315,11 @@ function begingApp()
 
         google.maps.event.addListener(currentCopy, 'click', function()
         {
+
           if(model.currentMarker !== "" && typeof(model.currentMarker.inf) !== "undefined")
           {
             model.currentMarker.inf.close();
+            octopus.closeInfo();
           }
           model.currentMarker = currentCopy;
           $("#pac-input").blur();
@@ -305,10 +329,15 @@ function begingApp()
           // before it even exist.
           if(typeof(model.currentMarker.inf) !== "undefined") 
           {
-            setTimeout(function(){model.currentMarker.inf.open(map,model.currentMarker);},300);
+            model.currentMarker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function(){
+              model.currentMarker.inf.open(map,model.currentMarker);
+               
+            },300);
           }
           
         });
+        
       })(current);
     },
 
@@ -355,6 +384,7 @@ function begingApp()
           model.currentMarker =model.enterKeyMarkers[0];
           //wait while the list closes to have enough space to fully
           // open the infowindow.
+          model.currentMarker.setAnimation(google.maps.Animation.BOUNCE);
           setTimeout(function(){model.currentMarker.inf.open(map,model.currentMarker);},300); 
         } 
       });
