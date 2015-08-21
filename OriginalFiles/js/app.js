@@ -431,21 +431,23 @@ function begingApp()
 google.maps.event.addDomListener(window, 'load', begingApp);
 
 //Sets the zise to make the map fit.
-$("#map-canvas").css("height", window.innerHeight); 
+$("li").css("height", window.innerHeight-$("#terco").height()-$(".windy-demo h2").height()-40); 
+$("#map-canvas").css("height", window.innerHeight);
 
   //If the browser window is resized it makes the
   // map canvas fit on it.
   $(window).resize(function() 
     {
+      $("li").css("height", window.innerHeight-$("#terco").height()-$(".windy-demo h2").height()-40);
       $("#map-canvas").css("height", window.innerHeight);
       $("#map-canvas").css("width", $(window).width()-1);
-
     });
 
 //Check for current orientation when the
 //app first start and set the screen size.
 window.addEventListener("load",function()
 {
+
   $("#map-canvas").css("height", window.innerHeight);
   $("#map-canvas").css("width", $(window).width()-1);
   if (window.matchMedia("(orientation: portrait)").matches) 
